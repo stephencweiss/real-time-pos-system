@@ -51,6 +51,11 @@ app.post('/products', function(req, res) {
 })
 
 // Delete an inventory product?
-
+app.delete('/product/:productId', function (req, res){
+  inventoryDB.remove({ _id: req.params.productId }, function (err, numRemoved){
+    if (err) res.status(500).send(err);
+    else res.status(200).send();
+  });
+})
 
 // Updates Inventory product
