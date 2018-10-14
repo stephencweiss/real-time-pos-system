@@ -107,3 +107,13 @@ app.post('/new', function (req, res) {
     }
   });
 })
+
+// GET a single transaction
+app.get('/:transactionID', function (req, res) {
+  Transactions.find({ _id: req.params.transactionID }, function(err, transaction) {
+    if (err) res.status(500).send(err);
+    else if (transaction) {
+      res.status(200).send(transaction[0]);
+    }
+  })
+})
