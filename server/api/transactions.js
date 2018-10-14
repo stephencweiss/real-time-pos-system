@@ -45,8 +45,26 @@ app.get('/limit', function (req, res) {
 //GET total sales for current day
 app.get('/day-total', function (req, res) {
   // if day is provided
-  var date = setDate(req.query.date);
-  
+  var searchDate = setDate(req.query.date);
+  //nedb.find(query, callback)
+  Transactions.find(
+    {date: { 
+      $gte : searchDate.startDate.toJSON(), 
+      $lte : searchDate.endDate.toJSON()
+    }, function (err, transactions) {
+      if (err) res.status(500).send();
+      else{
+        var result = { date : searchDate.startDate};
+        if (transactions) {
+          var total = transactions.reduce((total, current) => {return total + current}, 0.00);
+          result.total = parseFloat(parseFloat(total).toFixed(2));
+        } else {
+          result.total = 0;
+        }
+        res.status(200).send(result);
+      }
+    }
+  })
 })
 
 function setDate(date){
