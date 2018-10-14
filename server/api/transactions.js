@@ -14,19 +14,22 @@ module.exports = app;
 var Transactions = new Datastore({
   filename: './server/databases/transactions.db',
   autoload: true
-})
+});
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.send('Transactions API')
-})
+});
 
 //GET all transactions
-app.get('/all', function(req, res){
+app.get('/all', function(req, res) {
   //nedb.find(query, callback)
-  Transactions.find({},(err, transactions){
+  Transactions.find({}, function (err, transactions) {
     if (err) res.status(500).send();
     else res.status(201).send(transactions) 
-  })
-})
+  });
+});
 
 //GET limited transactions
+app.get('/limit', function (req, res) {
+ 
+});
