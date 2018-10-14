@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
   res.send('Transactions API')
 });
 
-//GET all transactions
+// GET all transactions
 app.get('/all', function(req, res) {
   //nedb.find(query, callback)
   Transactions.find({}, function (err, transactions) {
@@ -39,7 +39,7 @@ app.get('/all', function(req, res) {
   });
 });
 
-//GET limited transactions
+// GET limited transactions
 app.get('/limit', function (req, res) {
   var limit = parseInt(req.query.limit, 10) || 5
   Transactions.find({}, function (err) {
@@ -52,7 +52,7 @@ app.get('/limit', function (req, res) {
     })
 });
 
-//GET total sales for current day
+// GET total sales for current day
 app.get('/day-total', function (req, res) {
   // if day is provided
   var searchDate = setDate(req.query.date);
@@ -61,7 +61,7 @@ app.get('/day-total', function (req, res) {
     {date: { 
       $gte : searchDate.startDate.toJSON(), 
       $lte : searchDate.endDate.toJSON()
-    }, function (err, transactions) {
+    }}, function (err, transactions) {
       if (err) res.status(500).send();
       else{
         var result = { date : searchDate.startDate};
@@ -74,6 +74,25 @@ app.get('/day-total', function (req, res) {
         res.status(200).send(result);
       }
     }
-  })
+  )
 })
+
+// GET transactions for a particular date
+app.get('/by-date', function (req, res) {
+  var searchDate = setDate(req.query.date)
+  Transactions.find( 
+    { date: { 
+    $gte : searchDate.startDate.toJSON(), 
+    $lte : searchDate.endDate.toJSON()
+    }}, function (err, transactions) {
+      if (err) res.status(500).send();
+      else {
+        if (transactions) {
+          res.send(transactions) 
+        }
+      }
+    }
+  );
+})
+
 
