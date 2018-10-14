@@ -41,3 +41,19 @@ app.get('/limit', function (req, res) {
       else res.status(201).send(transactions) 
     })
 });
+
+//GET total sales for current day
+app.get('/day-total', function (req, res) {
+  // if day is provided
+  var date = setDate(req.query.date);
+  
+})
+
+function setDate(date){
+  var returnDate = {};
+  returnDate.startDate = date ? new Date(date) : new Date();
+  returnDate.endDate = date ? new Date(date) : new Date();
+  returnDate.startDate.setHours(0,0,0,0)
+  returnDate.endDate.setHours(23,59,59,59)
+  return returnDate;
+}
