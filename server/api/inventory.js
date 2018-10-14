@@ -33,8 +33,13 @@ app.get('/product/:productID', function(req, res) {
   }
 })
 
-
 // GET all inventory products
+app.get('/products', function (req, res) {
+  inventoryDB.find({}, function (err, products) {
+    console.log(`sending all products`);
+    res.send(products);
+  })
+})
 
 
 // Create an inventory product
