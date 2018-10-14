@@ -19,3 +19,14 @@ var Transactions = new Datastore({
 app.get('/', function(req, res){
   res.send('Transactions API')
 })
+
+//GET all transactions
+app.get('/all', function(req, res){
+  //nedb.find(query, callback)
+  Transactions.find({},(err, transactions){
+    if (err) res.status(500).send();
+    else res.status(201).send(transactions) 
+  })
+})
+
+//GET limited transactions
