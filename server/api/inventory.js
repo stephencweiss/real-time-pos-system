@@ -41,8 +41,14 @@ app.get('/products', function (req, res) {
   })
 })
 
-
 // Create an inventory product
+app.post('/products', function(req, res) {
+  var newProduct = req.body;
+  inventoryDB.insert(newProduct , function (err, product){
+    if(err) res.status(500).send(err);
+    else res.send(product)
+  });
+})
 
 // Delete an inventory product?
 
