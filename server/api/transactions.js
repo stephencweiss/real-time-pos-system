@@ -10,6 +10,16 @@ var Inventory = require('./inventory');
 
 module.exports = app;
 
+// Helper functions
+function setDate(date){
+  var returnDate = {};
+  returnDate.startDate = date ? new Date(date) : new Date();
+  returnDate.endDate = date ? new Date(date) : new Date();
+  returnDate.startDate.setHours(0,0,0,0)
+  returnDate.endDate.setHours(23,59,59,59)
+  return returnDate;
+}
+
 // Create database
 var Transactions = new Datastore({
   filename: './server/databases/transactions.db',
@@ -67,11 +77,3 @@ app.get('/day-total', function (req, res) {
   })
 })
 
-function setDate(date){
-  var returnDate = {};
-  returnDate.startDate = date ? new Date(date) : new Date();
-  returnDate.endDate = date ? new Date(date) : new Date();
-  returnDate.startDate.setHours(0,0,0,0)
-  returnDate.endDate.setHours(23,59,59,59)
-  return returnDate;
-}
