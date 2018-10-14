@@ -31,5 +31,13 @@ app.get('/all', function(req, res) {
 
 //GET limited transactions
 app.get('/limit', function (req, res) {
- 
+  var limit = parseInt(req.query.limit, 10) || 5
+  Transactions.find({}, function (err) {
+    if (err) res.status(500).send();
+  })
+    .sort({ date : -1 })
+    .exec(function (err, transactions) {
+      if (err) res.status(500).send();
+      else res.status(201).send(transactions) 
+    })
 });
