@@ -19,7 +19,7 @@ var inventoryDB = new Datastore( {
 
 // GET inventory
 app.get('/', function (req, res) {
-  res.send('inventory API')
+  res.send('Inventory API')
 })
 
 // GET a product from inventory by _id
