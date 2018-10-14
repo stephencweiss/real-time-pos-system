@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
 app.get('/all', function(req, res) {
   //nedb.find(query, callback)
   Transactions.find({}, function (err, transactions) {
-    if (err) res.status(500).send();
+    if (err) res.status(500).send(err);
     else res.status(201).send(transactions) 
   });
 });
@@ -62,7 +62,7 @@ app.get('/day-total', function (req, res) {
       $gte : searchDate.startDate.toJSON(), 
       $lte : searchDate.endDate.toJSON()
     }}, function (err, transactions) {
-      if (err) res.status(500).send();
+      if (err) res.status(500).send(err);
       else{
         var result = { date : searchDate.startDate};
         if (transactions) {
@@ -85,14 +85,25 @@ app.get('/by-date', function (req, res) {
     $gte : searchDate.startDate.toJSON(), 
     $lte : searchDate.endDate.toJSON()
     }}, function (err, transactions) {
-      if (err) res.status(500).send();
+      if (err) res.status(500).send(err);
       else {
         if (transactions) {
-          res.send(transactions) 
+          res.status(200).send(transactions);
         }
       }
     }
   );
 })
 
-
+// Add a new transaction
+app.post('/new', function (req, res) {
+  var newTransaction = req.body;
+  //nedB.insert(doc, callback)
+  Transactions.insert(newTransaction, function (err, transaction) {
+    if (err) res.status(500).send(err);
+    else {
+      res.status(200).sendDate();
+      Inventory.decrementInventory(transaction.products);
+    }
+  });
+})
