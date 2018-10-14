@@ -35,31 +35,31 @@ app.get('/', function (req, res){
 })
 
 app.use('/api/inventory', require('./api/inventory'));
-app.use('/api', require('.api/transactions'));
+app.use('/api', require('./api/transactions'));
 
 // Websocket logic for live cart
 
-io.on ('connection', function (socket) {
-  socket.on('cart-transaction-complete', function() {
-    socket.broadcast.emit('update-live-cart-dispplay', {});
-  });
+// io.on ('connection', function (socket) {
+//   socket.on('cart-transaction-complete', function() {
+//     socket.broadcast.emit('update-live-cart-dispplay', {});
+//   });
 
-  //on page load, show user current cart
-  socket.on('live-cart-page-loaded', function() {
-    socket.emit('update-live-cart-display', liveCart);
-  });
+//   //on page load, show user current cart
+//   socket.on('live-cart-page-loaded', function() {
+//     socket.emit('update-live-cart-display', liveCart);
+//   });
 
-  // when client connected, make client update live cart
-  socket.emit('update-live-cart-display', liveCart);
+//   // when client connected, make client update live cart
+//   socket.emit('update-live-cart-display', liveCart);
 
-  // when the cart data is updated by the POST
-  socket.on('update-live-cart', function(cartData) {
-    // keep track of the change
-    liveCart = cartData;
+//   // when the cart data is updated by the POST
+//   socket.on('update-live-cart', function(cartData) {
+//     // keep track of the change
+//     liveCart = cartData;
 
-    // broadcast updated live cart to all websocket clients
-    socket.broadcasat.emit('update-live-cart-display', liveCart);
-   });
-});
+//     // broadcast updated live cart to all websocket clients
+//     socket.broadcasat.emit('update-live-cart-display', liveCart);
+//    });
+// });
 
 server.listen(port, () => console.log(`listening on port ${port}`));
