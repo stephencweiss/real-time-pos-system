@@ -27,6 +27,7 @@ app.get('/product/:productID', function(req, res) {
   if (!req.params.productId) {
     res.status(500).send('ID field required.');
   } else {
+    //nedB.findOne(query, callback)
     inventoryDB.findOne({ _id: req.params.productId}, function (err, product){
       res.send(product)
     });
@@ -35,6 +36,7 @@ app.get('/product/:productID', function(req, res) {
 
 // GET all inventory products
 app.get('/products', function (req, res) {
+  //nedB.find(query,callback)
   inventoryDB.find({}, function (err, products) {
     console.log(`sending all products`);
     res.send(products);
@@ -44,6 +46,7 @@ app.get('/products', function (req, res) {
 // Create an inventory product
 app.post('/products', function(req, res) {
   var newProduct = req.body;
+  //nedB.insert(doc, callback)
   inventoryDB.insert(newProduct , function (err, product){
     if(err) res.status(500).send(err);
     else res.send(product)
@@ -52,6 +55,7 @@ app.post('/products', function(req, res) {
 
 // Delete an inventory product?
 app.delete('/product/:productId', function (req, res){
+  //nedB.remove(query, callback)
   inventoryDB.remove({ _id: req.params.productId }, function (err, numRemoved){
     if (err) res.status(500).send(err);
     else res.status(200).send();
@@ -59,3 +63,8 @@ app.delete('/product/:productId', function (req, res){
 })
 
 // Updates Inventory product
+app.put('/product', function (req, res) {
+  var productId = req.body._id;
+  //nedB.update(query, update, options, callback)
+  inventoryDB.update({ _id: productId}, req.body, {}, function ())
+})
